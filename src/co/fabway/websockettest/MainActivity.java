@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
 import android.widget.TextView;
 
 import com.codebutler.android_websockets.WebSocketClient;
@@ -17,15 +18,19 @@ import com.codebutler.android_websockets.WebSocketClient.Listener;
 
 public class MainActivity extends Activity {
 
-    final String                   TAG           = "WebsocketTest";
-    final String                   mLocalhostUri = "ws://192.178.10.38:9000/ws";
-    final List<BasicNameValuePair> mExtraHeaders = null;
-    WebSocketClient mWsClient = null;
+    private final String                   TAG           = "WebsocketTest";
+    private final String                   mLocalhostUri = "ws://192.178.10.38:9000/ws";
+    private final List<BasicNameValuePair> mExtraHeaders = null;
+    
+    private WebSocketClient mWsClient;
+    private TextView mTextView;
+    private int mCounter = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mTextView = (TextView) findViewById(R.id.my_text_view);
 
         mWsClient = new WebSocketClient(URI.create(mLocalhostUri), new Listener() {
 
@@ -39,14 +44,13 @@ public class MainActivity extends Activity {
                     e.printStackTrace();
                 }
                 Log.d(TAG, "Got binary message! " + message);
-                ((TextView) findViewById(R.id.my_text_view)).setText(message); 
+                setText(message); 
             }
 
             @Override
             public void onMessage(String message) {
                 Log.d(TAG, String.format("Got string message! %s", message));
-                ((TextView) findViewById(R.id.my_text_view)).setText(message); 
-
+                setText(message); 
             }
 
             @Override
@@ -62,17 +66,32 @@ public class MainActivity extends Activity {
             @Override
             public void onConnect() {
                 Log.d(TAG, "websocket onConnect");
-                sendMessage();
+                sendMessage(null);
             }
         }, mExtraHeaders);
 
         mWsClient.connect();
-
-        //        wsClient.disconnect();
     }
     
-    private void sendMessage() {
-        mWsClient.send("hello from android!");
+    // click from xml
+    public void sendMessage(View v) {
+        mWsClient.send("hello from android! " + mCounter);
+        mCounter++;
+    }
+    
+    // click from xml
+    public void disconnect(View v) {
+        mWsClient.disconnect();
+    }
+    
+    private void setText(final String text) {
+        runOnUiThread(new Runnable() {
+            
+            @Override
+            public void run() {
+                mTextView.setText(text);
+            }
+        });
     }
 
     @Override

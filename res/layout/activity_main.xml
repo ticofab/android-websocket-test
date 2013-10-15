@@ -14,4 +14,22 @@
         android:layout_height="wrap_content"
         android:text="@string/hello_world" />
 
+    <Button
+        android:id="@+id/my_button_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/my_text_view"
+        android:onClick="disconnect"
+        android:text="Disconnect" />
+    
+    <Button
+        android:id="@+id/my_sendmex_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/my_button_view"
+        android:onClick="sendMessage"
+        android:text="Send Message" />
+
 </RelativeLayout>
