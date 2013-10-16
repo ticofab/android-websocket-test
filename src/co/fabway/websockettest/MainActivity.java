@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.codebutler.android_websockets.WebSocketClient;
@@ -19,18 +20,22 @@ import com.codebutler.android_websockets.WebSocketClient.Listener;
 public class MainActivity extends Activity {
 
     private final String                   TAG           = "WebsocketTest";
-    private final String                   mLocalhostUri = "ws://192.178.10.38:9000/ws";
+    private final String                   mLocalhostUri = "ws://192.178.10.38:9000/ws2";
     private final List<BasicNameValuePair> mExtraHeaders = null;
-    
-    private WebSocketClient mWsClient;
-    private TextView mTextView;
-    private int mCounter = 0;
+
+    private WebSocketClient                mWsClient;
+    private TextView                       mTextView;
+    private TextView                       mSentTV;
+    private EditText                       mEditText;
+    private int                            mCounter      = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mSentTV = (TextView) findViewById(R.id.sent_string_text_view);
         mTextView = (TextView) findViewById(R.id.my_text_view);
+        mEditText = (EditText) findViewById(R.id.my_edit_view);
 
         mWsClient = new WebSocketClient(URI.create(mLocalhostUri), new Listener() {
 
@@ -44,13 +49,13 @@ public class MainActivity extends Activity {
                     e.printStackTrace();
                 }
                 Log.d(TAG, "Got binary message! " + message);
-                setText(message); 
+                setText(message);
             }
 
             @Override
             public void onMessage(String message) {
                 Log.d(TAG, String.format("Got string message! %s", message));
-                setText(message); 
+                setText(message);
             }
 
             @Override
@@ -72,21 +77,33 @@ public class MainActivity extends Activity {
 
         mWsClient.connect();
     }
-    
+
     // click from xml
     public void sendMessage(View v) {
-        mWsClient.send("hello from android! " + mCounter);
+        String mex = mEditText.getText().toString() + " " + mCounter;
         mCounter++;
+        mWsClient.send(mex);
+        setSentText(mex);
     }
-    
+
     // click from xml
     public void disconnect(View v) {
         mWsClient.disconnect();
     }
     
+    private void setSentText(final String text) {
+        runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                mSentTV.setText(text);
+            }
+        });  
+    }
+
     private void setText(final String text) {
         runOnUiThread(new Runnable() {
-            
+
             @Override
             public void run() {
                 mTextView.setText(text);

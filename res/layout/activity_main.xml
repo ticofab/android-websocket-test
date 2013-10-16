@@ -9,27 +9,59 @@
     tools:context=".MainActivity" >
 
     <TextView
+        android:id="@+id/sent_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sent:" />
+    
+    <TextView
+        android:id="@+id/sent_string_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/sent_text_view"
+        android:layout_marginLeft="15dp" />
+    
+    <TextView
+        android:id="@+id/received_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sent_text_view"
+        android:layout_marginTop="10dp"
+        android:text="Got:" />
+    
+    <TextView
         android:id="@+id/my_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:layout_toRightOf="@+id/received_text_view"
+        android:layout_alignTop="@+id/received_text_view"
+        android:layout_alignLeft="@+id/sent_string_text_view" />
+
+    <EditText
+        android:id="@+id/my_edit_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/my_text_view"
+        android:layout_marginTop="20dp"
+        android:text="change me" />
+
+    <Button
+        android:id="@+id/my_sendmex_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/my_edit_view"
+        android:layout_marginTop="20dp"
+        android:onClick="sendMessage"
+        android:text="Send Message" />
 
     <Button
         android:id="@+id/my_button_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/my_text_view"
+        android:layout_alignTop="@+id/my_sendmex_view"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@+id/my_sendmex_view"
         android:onClick="disconnect"
         android:text="Disconnect" />
-    
-    <Button
-        android:id="@+id/my_sendmex_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/my_button_view"
-        android:onClick="sendMessage"
-        android:text="Send Message" />
 
 </RelativeLayout>
