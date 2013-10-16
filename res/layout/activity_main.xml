@@ -12,37 +12,59 @@
         android:id="@+id/sent_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sent:" />
-    
+        android:text="Sent:"
+        android:textSize="14sp" />
+
     <TextView
         android:id="@+id/sent_string_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
         android:layout_toRightOf="@+id/sent_text_view"
-        android:layout_marginLeft="15dp" />
-    
+        android:textSize="14sp" />
+
     <TextView
         android:id="@+id/received_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/sent_text_view"
         android:layout_marginTop="10dp"
-        android:text="Got:" />
-    
+        android:text="Got:"
+        android:textSize="14sp" />
+
     <TextView
         android:id="@+id/my_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/received_text_view"
+        android:layout_alignLeft="@+id/sent_string_text_view"
         android:layout_alignTop="@+id/received_text_view"
-        android:layout_alignLeft="@+id/sent_string_text_view" />
+        android:layout_toRightOf="@+id/received_text_view"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/time_title_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/received_text_view"
+        android:layout_marginTop="10dp"
+        android:text="Time:"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/time_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/my_text_view"
+        android:layout_alignTop="@+id/time_title_text_view"
+        android:layout_toRightOf="@+id/time_title_text_view"
+        android:textSize="14sp" />
 
     <EditText
         android:id="@+id/my_edit_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/my_text_view"
-        android:layout_marginTop="20dp"
+        android:layout_below="@+id/time_title_text_view"
+        android:layout_marginTop="10dp"
         android:text="change me" />
 
     <Button
