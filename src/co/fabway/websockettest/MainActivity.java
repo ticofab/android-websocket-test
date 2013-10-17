@@ -19,18 +19,19 @@ import com.codebutler.android_websockets.WebSocketClient.Listener;
 
 public class MainActivity extends Activity {
 
-    private final String                   TAG           = "WebsocketTest";
-    private final String                   mLocalhostUri = "ws://192.178.10.38:9000/ws2";
-    private final String                   mLocalhostUriTime = "ws://192.178.10.38:9000/time";
+    private static final String TAG = "WebsocketTest";
+    private static final String IP = "10.10.105.130";
+    private final String mLocalhostUri = "ws://" + IP + ":9000/ws2";
+    private final String mLocalhostUriTime = "ws://" + IP + ":9000/time";
     private final List<BasicNameValuePair> mExtraHeaders = null;
 
-    private WebSocketClient                mWsClient;
-    private WebSocketClient                mWsTimeClient;
-    private TextView                       mTextView;
-    private TextView                       mSentTV;
-    private EditText                       mEditText;
+    private WebSocketClient mWsClient;
+    private WebSocketClient mWsTimeClient;
+    private TextView mTextView;
+    private TextView mSentTV;
+    private EditText mEditText;
     private TextView mTimeTV;
-    private int                            mCounter      = 0;
+    private int mCounter = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +81,7 @@ public class MainActivity extends Activity {
         }, mExtraHeaders);
 
         mWsClient.connect();
-        
+
         mWsTimeClient = new WebSocketClient(URI.create(mLocalhostUriTime), new Listener() {
 
             @Override
@@ -116,7 +117,7 @@ public class MainActivity extends Activity {
                 Log.d(TAG, "websocket time onConnect");
             }
         }, mExtraHeaders);
-        
+
         mWsTimeClient.connect();
     }
 
@@ -132,7 +133,7 @@ public class MainActivity extends Activity {
     public void disconnect(View v) {
         mWsClient.disconnect();
     }
-    
+
     private void setTimeText(final String text) {
         runOnUiThread(new Runnable() {
 
@@ -140,9 +141,9 @@ public class MainActivity extends Activity {
             public void run() {
                 mTimeTV.setText(text);
             }
-        });  
+        });
     }
-    
+
     private void setSentText(final String text) {
         runOnUiThread(new Runnable() {
 
@@ -150,7 +151,7 @@ public class MainActivity extends Activity {
             public void run() {
                 mSentTV.setText(text);
             }
-        });  
+        });
     }
 
     private void setText(final String text) {
@@ -169,7 +170,7 @@ public class MainActivity extends Activity {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-    
+
     @Override
     public void onDestroy() {
         super.onDestroy();
