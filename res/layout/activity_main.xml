@@ -86,4 +86,31 @@
         android:onClick="disconnect"
         android:text="Disconnect" />
 
+    <Button
+        android:id="@+id/send_pic_button_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/my_sendmex_view"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:onClick="connectAndSendPic"
+        android:text="Connect and send pic" />
+
+    <TextView
+        android:id="@+id/picture_back_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/send_pic_button_view"
+        android:text="got image from server:"
+        android:layout_marginTop="20dp"
+        android:textSize="14sp" />
+
+    <ImageView
+        android:id="@+id/got_pic_image_view"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_toRightOf="@+id/picture_back_text_view"
+        android:layout_alignTop="@+id/picture_back_text_view"
+        android:layout_marginTop="20dp" />
+
 </RelativeLayout>
