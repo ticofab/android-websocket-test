@@ -193,20 +193,31 @@ public class MainActivity extends Activity {
             @Override
             public void onMessage(String message) {
                 Log.d(TAG, "got string");
-                
-                // try to make a bitmap of it
-                final Bitmap bitmap = decodeBase64(message);
-                if (bitmap != null) {
-                    runOnUiThread(new Runnable() {
 
-                        @Override
-                        public void run() {
-                            ImageView iv = (ImageView) findViewById(R.id.got_pic_image_view);
-                            iv.setImageBitmap(bitmap);
+                JsonPayload pl;
+                try {
+                    pl = JsonPayload.fromJson(new JSONObject(message));
+                    if (pl.mHeader.equals("photo")) {
+
+                        // try to make a bitmap of it
+                        final Bitmap bitmap = decodeBase64(pl.mContent);
+                        if (bitmap != null) {
+                            runOnUiThread(new Runnable() {
+
+                                @Override
+                                public void run() {
+                                    ImageView iv = (ImageView) findViewById(R.id.got_pic_image_view);
+                                    iv.setImageBitmap(bitmap);
+                                }
+                            });
                         }
-                    });
+                    }
+                } catch (JSONException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                } catch (IllegalArgumentException e) {
+                    Log.d(TAG, "exception caught: " + e.getMessage());
                 }
-
 
             }
 
@@ -222,21 +233,21 @@ public class MainActivity extends Activity {
 
             @Override
             public void onConnect() {
-                
+
                 try {
                     String header = "photo";
                     Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.a);
                     String bitmapString = encodeTobase64String(bitmap);
-                    
+
                     JsonPayload jp = new JsonPayload();
                     jp.mHeader = header;
                     jp.mContent = bitmapString;
-                    
+
                     JSONObject jsonObj = JsonPayload.toJson(jp);
 
                     mWsPhotoClient.send(jsonObj.toString());
 
-                }catch (JSONException e) {
+                } catch (JSONException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
@@ -311,13 +322,11 @@ public class MainActivity extends Activity {
         byte[] decodedByte = Base64.decode(input, 0);
         return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
     }
-    
-    
-    
+
     private static class JsonPayload {
         public String mHeader;
         public String mContent;
-        
+
         public static JSONObject toJson(JsonPayload jsonPayload) throws JSONException {
             JSONObject json = new JSONObject();
             if (!TextUtils.isEmpty(jsonPayload.mHeader)) {
@@ -327,6 +336,17 @@ public class MainActivity extends Activity {
                 json.put("content", jsonPayload.mContent);
             }
             return json;
+        }
+
+        public static JsonPayload fromJson(JSONObject json) throws JSONException {
+            JsonPayload pl = new JsonPayload();
+            if (json.has("header")) {
+                pl.mHeader = json.getString("header");
+            }
+            if (json.has("content")) {
+                pl.mContent = json.getString("content");
+            }
+            return pl;
         }
     }
 
