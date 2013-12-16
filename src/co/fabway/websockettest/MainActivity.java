@@ -48,7 +48,7 @@ public class MainActivity extends Activity {
     private int mCounter = 0;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mSentTV = (TextView) findViewById(R.id.sent_string_text_view);
@@ -59,11 +59,11 @@ public class MainActivity extends Activity {
         mWsUploadClient = new WebSocketClient(URI.create(mLocalhostUriUpload), new Listener() {
 
             @Override
-            public void onMessage(byte[] data) {
+            public void onMessage(final byte[] data) {
                 String message = "couldn't read message";
                 try {
                     message = new String(data, "UTF-8");
-                } catch (UnsupportedEncodingException e) {
+                } catch (final UnsupportedEncodingException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
@@ -71,42 +71,42 @@ public class MainActivity extends Activity {
             }
 
             @Override
-            public void onMessage(String message) {
+            public void onMessage(final String message) {
                 Log.d(TAG, "got: " + message);
 
             }
 
             @Override
-            public void onError(Exception error) {
+            public void onError(final Exception error) {
                 Log.e(TAG, "error: " + error.getMessage());
             }
 
             @Override
-            public void onDisconnect(int code, String reason) {
+            public void onDisconnect(final int code, final String reason) {
                 // TODO Auto-generated method stub
 
             }
 
             @Override
             public void onConnect() {
-                String data = "{\"content\":\"myName\"}";
+                final String data = "{\"content\":\"myName\"}";
                 try {
-                    String header = "json000000";
+                    final String header = "json000000";
 
-                    byte[] headerBytes = header.getBytes(HTTP.UTF_8);
-                    byte[] dataBytes = data.getBytes(HTTP.UTF_8);
+                    final byte[] headerBytes = header.getBytes(HTTP.UTF_8);
+                    final byte[] dataBytes = data.getBytes(HTTP.UTF_8);
 
-                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                    final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                     outputStream.write(headerBytes);
                     outputStream.write(dataBytes);
-                    byte[] stuffToSend = outputStream.toByteArray();
+                    final byte[] stuffToSend = outputStream.toByteArray();
 
                     mWsUploadClient.send(stuffToSend);
 
-                } catch (UnsupportedEncodingException e) {
+                } catch (final UnsupportedEncodingException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
-                } catch (IOException e) {
+                } catch (final IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
@@ -118,11 +118,11 @@ public class MainActivity extends Activity {
         mWsTimeClient = new WebSocketClient(URI.create(mLocalhostUriTime), new Listener() {
 
             @Override
-            public void onMessage(byte[] data) {
+            public void onMessage(final byte[] data) {
                 String message = "couldn't read message";
                 try {
                     message = new String(data, "UTF-8");
-                } catch (UnsupportedEncodingException e) {
+                } catch (final UnsupportedEncodingException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
@@ -130,18 +130,18 @@ public class MainActivity extends Activity {
             }
 
             @Override
-            public void onMessage(String message) {
+            public void onMessage(final String message) {
                 // Log.d(TAG, String.format("Got string message! %s", message));
                 setTimeText(message);
             }
 
             @Override
-            public void onError(Exception error) {
+            public void onError(final Exception error) {
                 Log.e(TAG, "Error!", error);
             }
 
             @Override
-            public void onDisconnect(int code, String reason) {
+            public void onDisconnect(final int code, final String reason) {
                 Log.d(TAG, String.format("Disconnected! Code: %d Reason: %s", code, reason));
             }
 
@@ -155,24 +155,24 @@ public class MainActivity extends Activity {
     }
 
     // click from xml
-    public void sendMessage(View v) {
-        String mex = mEditText.getText().toString() + " " + mCounter;
+    public void sendMessage(final View v) {
+        final String mex = mEditText.getText().toString() + " " + mCounter;
         mCounter++;
         mWsClient.send(mex);
         setSentText(mex);
     }
 
     // click from xml
-    public void disconnect(View v) {
+    public void disconnect(final View v) {
         mWsClient.disconnect();
     }
 
     // click from xml
-    public void connectAndSendPic(View v) {
+    public void connectAndSendPic(final View v) {
         mWsPhotoClient = new WebSocketClient(URI.create(mLocalhostUriUploadJSON), new Listener() {
 
             @Override
-            public void onMessage(byte[] data) {
+            public void onMessage(final byte[] data) {
                 Log.d(TAG, "received bytes, lenght: " + data.length);
 
                 // try to get a bitmap out of it
@@ -182,7 +182,7 @@ public class MainActivity extends Activity {
 
                         @Override
                         public void run() {
-                            ImageView iv = (ImageView) findViewById(R.id.got_pic_image_view);
+                            final ImageView iv = (ImageView) findViewById(R.id.got_pic_image_view);
                             iv.setImageBitmap(bitmap);
                         }
                     });
@@ -191,7 +191,7 @@ public class MainActivity extends Activity {
             }
 
             @Override
-            public void onMessage(String message) {
+            public void onMessage(final String message) {
                 Log.d(TAG, "got string");
 
                 JsonPayload pl;
@@ -206,28 +206,28 @@ public class MainActivity extends Activity {
 
                                 @Override
                                 public void run() {
-                                    ImageView iv = (ImageView) findViewById(R.id.got_pic_image_view);
+                                    final ImageView iv = (ImageView) findViewById(R.id.got_pic_image_view);
                                     iv.setImageBitmap(bitmap);
                                 }
                             });
                         }
                     }
-                } catch (JSONException e1) {
+                } catch (final JSONException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
-                } catch (IllegalArgumentException e) {
+                } catch (final IllegalArgumentException e) {
                     Log.d(TAG, "exception caught: " + e.getMessage());
                 }
 
             }
 
             @Override
-            public void onError(Exception error) {
+            public void onError(final Exception error) {
                 Log.e(TAG, "Error!", error);
             }
 
             @Override
-            public void onDisconnect(int code, String reason) {
+            public void onDisconnect(final int code, final String reason) {
                 Log.d(TAG, String.format("Disconnected! Code: %d Reason: %s", code, reason));
             }
 
@@ -235,19 +235,19 @@ public class MainActivity extends Activity {
             public void onConnect() {
 
                 try {
-                    String header = "photo";
-                    Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.a);
-                    String bitmapString = encodeTobase64String(bitmap);
+                    final String header = "photo";
+                    final Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.a);
+                    final String bitmapString = encodeTobase64String(bitmap);
 
-                    JsonPayload jp = new JsonPayload();
+                    final JsonPayload jp = new JsonPayload();
                     jp.mHeader = header;
                     jp.mContent = bitmapString;
 
-                    JSONObject jsonObj = JsonPayload.toJson(jp);
+                    final JSONObject jsonObj = JsonPayload.toJson(jp);
 
                     mWsPhotoClient.send(jsonObj.toString());
 
-                } catch (JSONException e) {
+                } catch (final JSONException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
@@ -287,7 +287,7 @@ public class MainActivity extends Activity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
@@ -300,26 +300,26 @@ public class MainActivity extends Activity {
         mWsTimeClient.disconnect();
     }
 
-    public static byte[] encodeTobase64(Bitmap image) {
-        Bitmap immagex = image;
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    public static byte[] encodeTobase64(final Bitmap image) {
+        final Bitmap immagex = image;
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         immagex.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] b = baos.toByteArray();
-        byte[] imagebytes = Base64.encode(b, Base64.DEFAULT);
+        final byte[] b = baos.toByteArray();
+        final byte[] imagebytes = Base64.encode(b, Base64.DEFAULT);
         return imagebytes;
     }
 
-    public static String encodeTobase64String(Bitmap image) {
-        Bitmap immagex = image;
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    public static String encodeTobase64String(final Bitmap image) {
+        final Bitmap immagex = image;
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         immagex.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        byte[] b = baos.toByteArray();
-        String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
+        final byte[] b = baos.toByteArray();
+        final String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
         return imageEncoded;
     }
 
-    public static Bitmap decodeBase64(String input) {
-        byte[] decodedByte = Base64.decode(input, 0);
+    public static Bitmap decodeBase64(final String input) {
+        final byte[] decodedByte = Base64.decode(input, 0);
         return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
     }
 
@@ -327,8 +327,8 @@ public class MainActivity extends Activity {
         public String mHeader;
         public String mContent;
 
-        public static JSONObject toJson(JsonPayload jsonPayload) throws JSONException {
-            JSONObject json = new JSONObject();
+        public static JSONObject toJson(final JsonPayload jsonPayload) throws JSONException {
+            final JSONObject json = new JSONObject();
             if (!TextUtils.isEmpty(jsonPayload.mHeader)) {
                 json.put("header", jsonPayload.mHeader);
             }
@@ -338,8 +338,8 @@ public class MainActivity extends Activity {
             return json;
         }
 
-        public static JsonPayload fromJson(JSONObject json) throws JSONException {
-            JsonPayload pl = new JsonPayload();
+        public static JsonPayload fromJson(final JSONObject json) throws JSONException {
+            final JsonPayload pl = new JsonPayload();
             if (json.has("header")) {
                 pl.mHeader = json.getString("header");
             }
