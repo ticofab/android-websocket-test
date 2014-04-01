@@ -46,6 +46,7 @@ public class MainActivity extends Activity {
     private final List<BasicNameValuePair> mExtraHeaders = null;
 
     // adding some stuff
+    // adding more stuff
 
     private WebSocketClient mWsClient;
     private WebSocketClient mWsTimeClient;
