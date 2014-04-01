@@ -29,6 +29,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.codebutler.android_websockets.WebSocketClient;
@@ -43,6 +44,7 @@ public class MainActivity extends Activity {
     private final String mLocalhostUri = "ws://" + IP + ":9000/ws2";
     private final String mLocalhostUriTime = "ws://" + IP + ":9000/time";
     private final String mLocalhostUriUpload = "ws://" + IP + ":9000/wsupload";
+    private final String mLocalhostUriUploadJSON = "ws://" + IP + ":9000/wsuploadJSON";
     private final List<BasicNameValuePair> mExtraHeaders = null;
 
     private WebSocketClient mWsClient;
@@ -177,6 +179,91 @@ public class MainActivity extends Activity {
 
     // click from xml
     public void connectAndSendPic(final View v) {
+        mWsPhotoClient = new WebSocketClient(URI.create(mLocalhostUriUploadJSON), new Listener() {
+
+            @Override
+            public void onMessage(final byte[] data) {
+                Log.d(TAG, "received bytes, lenght: " + data.length);
+
+                // try to get a bitmap out of it
+                final Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                if (bitmap != null) {
+                    runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            final ImageView iv = (ImageView) findViewById(R.id.got_pic_image_view);
+                            iv.setImageBitmap(bitmap);
+                        }
+                    });
+                }
+
+            }
+
+            @Override
+            public void onMessage(final String message) {
+                Log.d(TAG, "got string");
+
+                JsonPayload pl;
+                try {
+                    pl = JsonPayload.fromJson(new JSONObject(message));
+                    if (pl.mHeader.equals("photo")) {
+
+                        // try to make a bitmap of it
+                        final Bitmap bitmap = decodeBase64(pl.mContent);
+                        if (bitmap != null) {
+                            runOnUiThread(new Runnable() {
+
+                                @Override
+                                public void run() {
+                                    final ImageView iv = (ImageView) findViewById(R.id.got_pic_image_view);
+                                    iv.setImageBitmap(bitmap);
+                                }
+                            });
+                        }
+                    }
+                } catch (final JSONException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                } catch (final IllegalArgumentException e) {
+                    Log.d(TAG, "exception caught: " + e.getMessage());
+                }
+
+            }
+
+            @Override
+            public void onError(final Exception error) {
+                Log.e(TAG, "Error!", error);
+            }
+
+            @Override
+            public void onDisconnect(final int code, final String reason) {
+                Log.d(TAG, String.format("Disconnected! Code: %d Reason: %s", code, reason));
+            }
+
+            @Override
+            public void onConnect() {
+
+                try {
+                    final String header = "photo";
+                    final Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.a);
+                    final String bitmapString = encodeTobase64String(bitmap);
+
+                    final JsonPayload jp = new JsonPayload();
+                    jp.mHeader = header;
+                    jp.mContent = bitmapString;
+
+                    final JSONObject jsonObj = JsonPayload.toJson(jp);
+
+                    mWsPhotoClient.send(jsonObj.toString());
+
+                } catch (final JSONException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }, mExtraHeaders);
+        mWsPhotoClient.connect();
 
     }
 
