@@ -34,6 +34,8 @@ import com.codebutler.android_websockets.WebSocketClient.Listener;
 
 public class MainActivity extends Activity {
 
+    // patching stuff
+
     private static final String TAG = "WebsocketTest";
     private static final String IP = "192.168.1.67";
     private final String mLocalhostUri = "ws://" + IP + ":9000/ws2";
