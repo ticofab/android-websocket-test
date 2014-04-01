@@ -49,6 +49,7 @@ public class MainActivity extends Activity {
 
     // adding some stuff
     // adding more stuff
+    // something in master
 
     private WebSocketClient mWsClient;
     private WebSocketClient mWsTimeClient;
