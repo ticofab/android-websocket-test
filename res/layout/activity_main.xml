@@ -1,0 +1,116 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity" >
+
+    <TextView
+        android:id="@+id/sent_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sent:"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/sent_string_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_toRightOf="@+id/sent_text_view"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/received_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sent_text_view"
+        android:layout_marginTop="10dp"
+        android:text="Got:"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/my_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/sent_string_text_view"
+        android:layout_alignTop="@+id/received_text_view"
+        android:layout_toRightOf="@+id/received_text_view"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/time_title_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/received_text_view"
+        android:layout_marginTop="10dp"
+        android:text="Time:"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/time_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/my_text_view"
+        android:layout_alignTop="@+id/time_title_text_view"
+        android:layout_toRightOf="@+id/time_title_text_view"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/my_edit_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/time_title_text_view"
+        android:layout_marginTop="10dp"
+        android:text="change me" />
+
+    <Button
+        android:id="@+id/my_sendmex_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/my_edit_view"
+        android:layout_marginTop="20dp"
+        android:onClick="sendMessage"
+        android:text="Send Message" />
+
+    <Button
+        android:id="@+id/my_button_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/my_sendmex_view"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@+id/my_sendmex_view"
+        android:onClick="disconnect"
+        android:text="Disconnect" />
+
+    <Button
+        android:id="@+id/send_pic_button_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/my_sendmex_view"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:onClick="connectAndSendPic"
+        android:text="Connect and send pic" />
+
+    <TextView
+        android:id="@+id/picture_back_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/send_pic_button_view"
+        android:text="got image from server:"
+        android:layout_marginTop="20dp"
+        android:textSize="14sp" />
+
+    <ImageView
+        android:id="@+id/got_pic_image_view"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_toRightOf="@+id/picture_back_text_view"
+        android:layout_alignTop="@+id/picture_back_text_view"
+        android:layout_marginTop="20dp" />
+
+</RelativeLayout>
