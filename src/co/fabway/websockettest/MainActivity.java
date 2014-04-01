@@ -47,6 +47,9 @@ public class MainActivity extends Activity {
     private final String mLocalhostUriUploadJSON = "ws://" + IP + ":9000/wsuploadJSON";
     private final List<BasicNameValuePair> mExtraHeaders = null;
 
+    // adding some stuff
+    // adding more stuff
+
     private WebSocketClient mWsClient;
     private WebSocketClient mWsTimeClient;
     private WebSocketClient mWsUploadClient;
